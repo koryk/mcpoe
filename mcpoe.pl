@@ -10,12 +10,12 @@ use SMPConfig;
 #use encoding 'utf8';
 use Encode qw(encode decode decode_utf8 encode_utf8 );
 #use constant DEBUG=>1; # just functions/critical
-#use constant DEBUG=>2; # just protocol packets
+use constant DEBUG=>2; # just protocol packets
 #use constant DEBUG=>4; # just parsing
 #use constant DEBUG=>8; # just buffer updates
 #use constant DEBUG=>16; # just buffer dumps
 #use constant DEBUG=>32; # just informational (keepalives)
-use constant DEBUG=>11; # no parsing problems...
+#use constant DEBUG=>11; # no parsing problems...
 #use constant DEBUG=>15; # 
 #use constant DEBUG=>0; # 
 #use constant DEBUG=>63; # everything
