@@ -46,7 +46,7 @@ my $serverkey='';
 my $pm;
 my $tickspeed= 0.1;
 my $software_version=12;
-my $protocol_version=2;
+my $protocol_version=3;
 my $movecount = 0;
 my $agent_header="Java/1.6.0_21";
 my $entities = {};
