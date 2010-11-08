@@ -10,7 +10,7 @@ use SMPConfig;
 #use encoding 'utf8';
 use Encode qw(encode decode decode_utf8 encode_utf8 );
 #use constant DEBUG=>1; # just functions/critical
-use constant DEBUG=>2; # just protocol packets
+use constant DEBUG=>0; # just protocol packets
 #use constant DEBUG=>4; # just parsing
 #use constant DEBUG=>8; # just buffer updates
 #use constant DEBUG=>16; # just buffer dumps
@@ -318,7 +318,8 @@ sub entity_teleport {
   my ($kernel, $heap, @args) = @_[0,1,2 .. $#_];
   debug(2,'entity teleport: '.$args[3]); 
   debug(2,'(X,Y,Z): ('.join(',',@args[1,2,3]).')');
-  if($args[2] == $ai->{target})
+ 
+  if((defined $args[2] && defined $ai->{target}) && ($args[2] == $ai->{target}))
   {
     $ai->{'X'} = $args[3];
     $ai->{'Y'} = $args[4];
@@ -328,7 +329,7 @@ sub entity_teleport {
 
 sub relative_move_and_look {
   my ($kernel, $heap, @args) = @_[0,1,2 .. $#_];
-  print STDERR Dumper(@args);
+  #print STDERR Dumper(@args);
   debug(2,'relative entity move and look: '.$args[1]); 
   debug(2,'(X,Y,Z): ('.join(',',@args[2,3,4]).')');
   relative_move($kernel,$heap,$args[0],$args[1],$args[2],$args[3],$args[4]);
@@ -341,7 +342,7 @@ sub relative_move {
     $ai->{'Y'} += $args[3];
     $ai->{'Z'} += $args[4];
   }
-  print STDERR Dumper(@args);
+  #print STDERR Dumper(@args);
   debug(2,'relative entity move: '.$args[1]); 
   debug(2,'(X,Y,Z): ('.join(',',@args[2,3,4]).')');
   #$ai->{'target'} = 1;
@@ -428,9 +429,13 @@ sub chathandler
   debug(2,'got chat: '.$args[2]); 
   my $line = $args[2];
   my $owner = $config->{owner};
-  if($line =~ m/^<$owner>\s/)
+  print $line;
+  
+  if($line =~ m/^(.*)<$owner>\s/)
   {
-    my ($cmd) = $line =~ m/^<$owner>\s(.*)/;
+    print "owner: " . $owner;
+    my ($cmd) = $line =~ m/^(.*)(\s*)<$owner>\s(.*)/;
+    print $cmd; 
     if($cmd eq "stop")
     {
       $ai->{target} = undef;
